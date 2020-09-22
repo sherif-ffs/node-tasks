@@ -2,9 +2,13 @@
 const chalk = require('chalk')
 const mongodb = require('mongodb')
 const MongoClient = mongodb.MongoClient
+const ObjectID = mongodb.ObjectID
 
+// const { MongoClient, ObjectID }  = require('mongodb')
 const connectionURL = 'mongodb://127.0.0.1:27017'
 const databaseName = 'task-manager'
+
+const id = new ObjectID()
 
 MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
     if (error) {
@@ -36,6 +40,7 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
         }
     ], (error, result) => {
         if (error) {
+            console.log(error)
             return console.log('unable to insert user')
         }
 
@@ -57,7 +62,8 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
         }
     ], (error, result) => {
         if (error) {
-            return console.log('unable to insert user')
+            console.log(error)
+            return console.log('unable to insert tasks')
         }
 
         console.log('result.ops: ', result.ops)
