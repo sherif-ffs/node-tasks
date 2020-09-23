@@ -8,8 +8,6 @@ const ObjectID = mongodb.ObjectID
 const connectionURL = 'mongodb://127.0.0.1:27017'
 const databaseName = 'task-manager'
 
-const id = new ObjectID()
-
 MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
     if (error) {
         return console.log(chalk.red('unable to connect'))
@@ -19,55 +17,35 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client) => {
 
     const db = client.db(databaseName)
 
-    // db.collection('users').insertOne({
-    //     name: 'Sherif', 
-    //     age: 22
-    // }, (error, result) => {
+    // db.collection('users').findOne({_id: new ObjectID("5f68e57a855fb0103e12b8ec")}, (error, user) => {
     //     if (error) {
-    //         return console.log('unable to insert user')
+    //         return console.log('unable to fetch user')
     //     }
 
-    //     console.log('result.ops: ', result.ops)
+    //     console.log(user)
     // })
 
-    db.collection('users').insertMany([
-        {
-            name: 'Eric', 
-            age: 30
-        }, {
-            name: 'Steve',
-            age: 2
-        }
-    ], (error, result) => {
+    // db.collection('users').find({age: 22}).toArray((error, users) => {
+    //     console.log('users: ', users)
+    // })
+
+    // db.collection('tasks').findOne(({_id: new ObjectID("5f697dcb59daf7263f915d34")}, (error, task) => {
+    //     if (error) {
+    //         return console.log('error')
+    //     }
+
+    //     console.log(task)
+    // }))
+
+    db.collection('tasks').find({done: false}).toArray((error, tasks) => {
         if (error) {
-            console.log(error)
-            return console.log('unable to insert user')
+            return console.log(chalk.red('error', error))
         }
 
-        console.log('result.ops: ', result.ops)
+        console.log(tasks)
+        console.log(chalk.greenBright(tasks.length))
     })
 
-    db.collection('tasks').insertMany([
-        {
-            title: 'Task One',
-            done: false
-        }, 
-        {
-            title: 'Task Two',
-            done: true
-        }, 
-        {
-            title: 'Task Three',
-            done: false
-        }
-    ], (error, result) => {
-        if (error) {
-            console.log(error)
-            return console.log('unable to insert tasks')
-        }
-
-        console.log('result.ops: ', result.ops)
-    })
 })
 
 
