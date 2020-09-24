@@ -1,0 +1,29 @@
+{
+  "name": "tasks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.2",
+    "mongoose": "^5.10.6",
+    "nodemon": "^2.0.4",
+    "validator": "^13.1.17"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sherif-ffs/node-tasks.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sherif-ffs/node-tasks/issues"
+  },
+  "homepage": "https://github.com/sherif-ffs/node-tasks#readme"
+}
