@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {
     useNewUrlParser: true,
@@ -7,24 +8,57 @@ mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {
 
 const User = mongoose.model('User', {
     name: {
-        type: String
+        type: String,
+        required: true,
+        trim: true
+    },
+    password: {
+        type: String,
+        required: true,
+        trim: true,
+        minlength: 7,
+        validate(password) {
+            if (password.toLowerCase().includes('password')) {
+                throw new Error('Be more creative')
+            }
+        }
+    },  
+    email: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true,
+        validate(value) { 
+            if (!validator.isEmail(value)) {
+                throw new Error('Email is invalid')
+            }
+        }
     },
     age: {
-        type: Number
+        type: Number,
+        default: 0,
+        validate(value) {
+            if (value < 0) {
+                throw new Error('Age must be a positive number')
+            }
+        }
     }
 })
 
 const Task = mongoose.model('Task', {
     title: {
-        type: String
+        type: String,
+        required: true,
+        trim: true
     },
     completed: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 })
 
 const task = new Task({
-    title: 'Test Task',
+    title: 'Another Test Task',
     completed: false
 })
 
@@ -35,9 +69,12 @@ task.save()
 .catch((error) => {
     console.log('error: ', error)
 })
+
 // const me = new User({
-//     name: 'Sherif',
-//     age: 22
+//     name: 'Steve',
+//     email: 'selmetwa@gmail.com',
+//     password: 'prep203000',
+//     age: 21
 // })
 
 // me.save()
